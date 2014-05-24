@@ -98,7 +98,6 @@ namespace Utility.TailThread
             while ((input = asyncFileReader.ReadAsynchronous()) != null)
             {
                 appendText(input + "\n");
-                Console.WriteLine(input + "\n");
             }
         }
 
@@ -118,7 +117,9 @@ namespace Utility.TailThread
                 watcher.Changed += new FileSystemEventHandler(OnChanged); // Add event handler(s)
                 watcher.EnableRaisingEvents = true;                       // Begin watching
 
-                ReadAndPrintFromFile(1000);                               // Perform an initial read
+                //ReadAndPrintFromFile(1000);                               // Perform an initial read
+                // No initial read, only watch new changes
+                asyncFileReader.fileStream.Position = asyncFileReader.fileStream.Length;
             }
 
             catch (Exception _e)

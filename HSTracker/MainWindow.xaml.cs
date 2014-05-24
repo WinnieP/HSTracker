@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 
 using Microsoft.Win32;
 using Utility.ModifyRegistry;
+using Utility.TailThread;
+using System.Reactive.Subjects;
 
 namespace HSTracker
 {
@@ -23,7 +25,9 @@ namespace HSTracker
     /// </summary>
     public partial class MainWindow : NavigationWindow
     {
-        Conf conf = new Conf();
+        Conf            conf    = new Conf();
+        Subject<string> subject = new Subject<string>();
+        TailThread      tail;
 
         public MainWindow()
         {
@@ -36,15 +40,10 @@ namespace HSTracker
 
         private void InitApp()
         {
-            showMessage("Starting");
+            subject.Subscribe(line => showMessage(line, "logtail"));
+            tail = new TailThread(conf.LogPath(), new AppendTextDelegate(subject.OnNext));
 
-            var tail = new Utility.TailThread.TailThread(@"c:\Users\winston\test.log", new Utility.TailThread.AppendTextDelegate(blah));
             tail.Start();
-        }
-
-        private void blah(string input)
-        {
-            showMessage(input, "logtail");
         }
 
         private void showMessage(string text, string caption = "ReadMe")
