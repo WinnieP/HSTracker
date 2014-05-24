@@ -31,12 +31,20 @@ namespace HSTracker
 
             InitApp();
 
-            Application.Current.Shutdown();
+            //Application.Current.Shutdown();
         }
 
         private void InitApp()
         {
-            showMessage(conf.LogPath());
+            showMessage("Starting");
+
+            var tail = new Utility.TailThread.TailThread(@"c:\Users\winston\test.log", new Utility.TailThread.AppendTextDelegate(blah));
+            tail.Start();
+        }
+
+        private void blah(string input)
+        {
+            showMessage(input, "logtail");
         }
 
         private void showMessage(string text, string caption = "ReadMe")
