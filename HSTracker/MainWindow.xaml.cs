@@ -13,16 +13,38 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Microsoft.Win32;
+using Utility.ModifyRegistry;
+
 namespace HSTracker
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : NavigationWindow
     {
+        Conf conf = new Conf();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            InitApp();
+
+            Application.Current.Shutdown();
+        }
+
+        private void InitApp()
+        {
+            showMessage(conf.LogPath());
+        }
+
+        private void showMessage(string text, string caption = "ReadMe")
+        {
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+
+            MessageBox.Show(text, caption, button, icon);
         }
     }
 }
