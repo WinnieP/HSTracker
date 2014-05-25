@@ -31,9 +31,9 @@ namespace HSTracker
 
             eventStream = new EventStream();
 
-            eventStream.MyCardPlays().Subscribe(x => showMessage("My Play: " + x));
-            eventStream.TheirCardPlays().Subscribe(x => showMessage("Their Play: " + x));
-            eventStream.MyCardDraws().Subscribe(x => showMessage("My Draw: " + x));
+            eventStream.MyPlays().Subscribe(x => showMessage("My Play: " + x));
+            eventStream.TheirPlays().Subscribe(x => showMessage("Their Play: " + x));
+            eventStream.MyDraws().Subscribe(x => showMessage("My Draw: " + x));
             eventStream.MyMulligans().Subscribe(x => showMessage("My Mulligan: " + x));
             eventStream.MyDiscards().Subscribe(x => showMessage("My Discard: " + x));
 
