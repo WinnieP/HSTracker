@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 //using System.Windows.Forms;
 using System.IO;
-
+using System.Timers;
 /// 
 
 /// This code is heavily adapted and modified from the example at
@@ -72,8 +72,6 @@ namespace Utility.TailThread
         {
             appendText = appendTextDelegate;
             FindPathAndFile(filePath);
-            Console.WriteLine(fileDir);
-            Console.WriteLine(fileName);
         }
 
         public void FindPathAndFile(string filePath)
@@ -118,13 +116,16 @@ namespace Utility.TailThread
                 watcher.EnableRaisingEvents = true;                       // Begin watching
 
                 //ReadAndPrintFromFile(1000);                               // Perform an initial read
+
                 // No initial read, only watch new changes
                 asyncFileReader.fileStream.Position = asyncFileReader.fileStream.Length;
             }
 
             catch (Exception _e)
             {
+                Console.WriteLine("!!!!!!!!!!!!!!!!!!");
                 Console.WriteLine(_e.ToString());
+                Console.WriteLine("!!!!!!!!!!!!!!!!!!");
             }
         }
 
@@ -159,15 +160,21 @@ namespace Utility.TailThread
 
     class AsynchronousFileReader
     {
+        public string filePath;
         public FileStream fileStream;
         public StreamReader fileStreamReader;
+        public System.Timers.Timer reloadTimer;
 
         public AsynchronousFileReader(string filePath)
         {
+            this.filePath = filePath;
+
             // Open the file for asynchronous read
             fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 1, true);
             // attach a StreamReader to the file stream
             fileStreamReader = new StreamReader(fileStream);
+
+            InitializeReloadTimer();
         }
 
         public string ReadAsynchronous()
@@ -179,6 +186,26 @@ namespace Utility.TailThread
         {
             fileStreamReader.Close();
             fileStream.Close();
+        }
+
+        protected void InitializeReloadTimer()
+        {
+            reloadTimer = new System.Timers.Timer(10000);
+
+            // Hook up the Elapsed event for the timer.
+            reloadTimer.Elapsed += new System.Timers.ElapsedEventHandler(ReloadLogFile);
+
+            // Set the Interval to 2 seconds (2000 milliseconds).
+            reloadTimer.Interval = 2000;
+            reloadTimer.Enabled = true;
+        }
+
+        // For whatever reason, it seems like the log file isn't written to unless you try opening it
+        protected void ReloadLogFile(object source, System.Timers.ElapsedEventArgs e)
+        {
+            var file = File.Open(this.filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            file.Position = 1;
+            file.Close();
         }
     }
 }

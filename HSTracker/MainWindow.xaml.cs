@@ -13,10 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Microsoft.Win32;
-using Utility.ModifyRegistry;
 using Utility.TailThread;
-using System.Reactive.Subjects;
+using System.Reactive.Linq;
 
 namespace HSTracker
 {
@@ -25,27 +23,22 @@ namespace HSTracker
     /// </summary>
     public partial class MainWindow : NavigationWindow
     {
-        Conf            conf    = new Conf();
-        Subject<string> subject = new Subject<string>();
-        TailThread      tail;
+        EventStream eventStream;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            InitApp();
+            eventStream = new EventStream();
+
+            eventStream.MyCardPlays().Subscribe(x => showMessage("My Play: " + x));
+            eventStream.TheirCardPlays().Subscribe(x => showMessage("Their Play: " + x));
+            eventStream.MyCardDraws().Subscribe(x => showMessage("My Draw: " + x));
+            eventStream.MyMulligans().Subscribe(x => showMessage("My Mulligan: " + x));
+            eventStream.MyDiscards().Subscribe(x => showMessage("My Discard: " + x));
 
             //Application.Current.Shutdown();
         }
-
-        private void InitApp()
-        {
-            subject.Subscribe(line => showMessage(line, "logtail"));
-            tail = new TailThread(conf.LogPath(), new AppendTextDelegate(subject.OnNext));
-
-            tail.Start();
-        }
-
         private void showMessage(string text, string caption = "ReadMe")
         {
             MessageBoxButton button = MessageBoxButton.OK;
