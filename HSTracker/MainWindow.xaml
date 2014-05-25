@@ -1,33 +1,27 @@
 ﻿<Window x:Class="HSTracker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="HSTracker" Height="500" Width="230">
+        Title="HSTracker" Width="230">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="0"  Orientation="Vertical">
-            <TextBlock Padding="4,4" Background="LightGreen">Card A</TextBlock>
-            <TextBlock Padding="4,4" Background="LightYellow">Card B</TextBlock>
-            <TextBlock Padding="4,4" Background="LightPink">Card C</TextBlock>
-            <TextBlock Padding="4,4" Background="LightGreen">Card D</TextBlock>
-        </StackPanel>
 
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="Resources/CardTemplate.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <ItemsControl x:Name="cardCollection" Grid.Row="0" HorizontalAlignment="Stretch">
+        </ItemsControl>
+        
         <StackPanel Grid.Row="1" Orientation="Vertical" Background="LightBlue">
             <TextBlock Padding="4,4">Stuff</TextBlock>
         </StackPanel>
     </Grid>
-    <!--
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-    </Grid>
-    -->
-
 </Window>

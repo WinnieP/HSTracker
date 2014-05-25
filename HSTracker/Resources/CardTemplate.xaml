@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HSTracker">
+    
+    <DataTemplate DataType="{x:Type local:Card}">
+        <DataTemplate.Resources>
+        </DataTemplate.Resources>
+
+        <Border x:Name="cardPit" Margin="6,3">
+            <Grid Width="{Binding ElementName=cardPit, Path=ActualWidth}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="cardCost" Text="{Binding Mana}" Padding="3,0" VerticalAlignment="Center" Background="Blue" Foreground="White"/>
+                    <TextBlock x:Name="cardName" Text="{Binding Name}" Margin="3,0" VerticalAlignment="Center" />
+                </StackPanel>
+                            
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                    <TextBlock x:Name="cardCount" Text="{Binding Count}" Margin="3,0" />
+                    <TextBlock>/</TextBlock>
+                    <TextBlock x:Name="cardMaxCount" Text="{Binding MaxCount}" Margin="3,0" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

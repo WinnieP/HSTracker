@@ -17,15 +17,12 @@ namespace HSTracker
 
         public List<Card> Cards
         {
-            get
-            {
-                return _cards;
-            }
+            get { return _cards; }
         }
 
         public void Play(string name)
         {
-            _cards.Remove(_cards.FirstOrDefault<Card>(x => x.Name == name));
+            _cards.Find(x => x.Name == name).Play();
         }
     }
 }

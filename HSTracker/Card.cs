@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace HSTracker
 {
-    class Card
+    class Card : INotifyPropertyChanged
     {
         private string _name;
         private uint _mana;
-
-        public Card(string name, uint mana)
+        private uint _count;
+        private uint _maxCount;
+        
+        public Card(string name, uint mana, uint count)
         {
             _name = name;
             _mana = mana;
+            _count = _maxCount = count;
         }
 
         public string Name
@@ -27,9 +31,32 @@ namespace HSTracker
             get { return _mana; }
         }
 
-        public override string ToString()
+        public uint Count
         {
-            return String.Format("({0}) {1}", _mana, _name);
+            get { return _count; }
         }
+
+        public uint MaxCount
+        {
+            get { return _maxCount; }
+        }
+
+        public void Play()
+        {
+            _count--;
+            this.RaisePropertyChanged("Count");
+        }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion		
     }
 }

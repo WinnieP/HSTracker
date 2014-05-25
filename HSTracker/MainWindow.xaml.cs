@@ -24,22 +24,51 @@ namespace HSTracker
     public partial class MainWindow : Window
     {
         EventStream eventStream;
-        
 
         public MainWindow()
         {
             InitializeComponent();
+            InitializeWindow();
 
             eventStream = new EventStream();
 
+            this.cardCollection.ItemsSource = DefaultDeck().Cards;
+
+			this.Loaded += delegate { this.StartListening(); };
+
+            //Application.Current.Shutdown();
+        }
+
+        // Start window in upper-right
+        private void InitializeWindow()
+        {
+            this.WindowStartupLocation = WindowStartupLocation.Manual;
+            this.Left = SystemParameters.PrimaryScreenWidth - this.Width;
+            this.Height = System.Windows.SystemParameters.WorkArea.Height;
+            this.Top = 0;
+        }
+
+        private Deck DefaultDeck()
+        {
+            return new Deck(
+                new List<Card> {
+                    new Card("Ragnaros", 8, 1),
+                    new Card("Loot Hoarder", 2, 2),
+                    new Card("Eviscerate", 2, 2),
+                    new Card("Chillwind Yeti", 4, 1),
+                }
+            );
+        }
+
+        private void StartListening()
+        {
             eventStream.MyPlays().Subscribe(x => showMessage("My Play: " + x));
             eventStream.TheirPlays().Subscribe(x => showMessage("Their Play: " + x));
             eventStream.MyDraws().Subscribe(x => showMessage("My Draw: " + x));
             eventStream.MyMulligans().Subscribe(x => showMessage("My Mulligan: " + x));
             eventStream.MyDiscards().Subscribe(x => showMessage("My Discard: " + x));
-
-            //Application.Current.Shutdown();
         }
+
         private void showMessage(string text, string caption = "ReadMe")
         {
             MessageBoxButton button = MessageBoxButton.OK;
