@@ -73,6 +73,15 @@ namespace HSTracker
             this.RaisePropertyChanged("SomeDrawn");
         }
 
+        public void Reset()
+        {
+            _count = _maxCount;
+            this.RaisePropertyChanged("Count");
+            this.RaisePropertyChanged("NoneDrawn");
+            this.RaisePropertyChanged("SomeDrawn");
+        }
+
+
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;

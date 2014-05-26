@@ -24,14 +24,15 @@ namespace HSTracker
     public partial class MainWindow : Window
     {
         EventStream eventStream;
-        Deck deck;
+        Deck currentDeck;
+        DeckCollection deckCollection = new DeckCollection();
         Library library = new Library();
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeWindow();
-            InitializeDeck();
+            ResetDeck();
 
             library.FindByFragment("fire").ForEach(x => Console.WriteLine(x.Item1 + "," + x.Item2));
 
@@ -49,11 +50,17 @@ namespace HSTracker
             this.Top = 0;
         }
 
-        private void InitializeDeck()
+        private void ResetDeck()
         {
-            deck = Deck.Rogue();
-            this.cardCollection.ItemsSource = deck.Cards;
-            this.deckControl.ItemsSource = new List<Deck> { deck };
+            // Clone instead so we don't have to reset state?
+            if (currentDeck != null) currentDeck.Reset();
+
+            currentDeck = deckCollection.GetDeck("Zoo");
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                this.cardCollection.ItemsSource = currentDeck.Cards;
+                this.deckControl.ItemsSource = new List<Deck> { currentDeck };
+            }));
         }
 
         private void StartListening()
@@ -61,13 +68,19 @@ namespace HSTracker
             eventStream.MyDraws().Subscribe(card =>
             {
                 Console.WriteLine("Draw: " + card);
-                deck.Draw(card);
+                currentDeck.Draw(card);
             });
 
             eventStream.MyMulligans().Subscribe(card =>
             {
                 Console.WriteLine("Mulligan: " + card);
-                deck.Restore(card);
+                currentDeck.Restore(card);
+            });
+
+            eventStream.GameOver().Subscribe(_ =>
+            {
+                Console.WriteLine("Game Over");
+                ResetDeck();
             });
         }
 
@@ -81,12 +94,24 @@ namespace HSTracker
 
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
-            InitializeDeck();
+            ResetDeck();
         }
 
         private void Change_Click(object sender, RoutedEventArgs e)
         {
-            eventStream.stream.OnNext("[Zone] ZoneChangeList.ProcessChanges() - id=65 local=False [name=Bluegill Warrior id=12 zone=HAND zonePos=0 cardId=CS2_073 player=1] zone from FRIENDLY DECK -> FRIENDLY HAND");
+            // hackity hack hack - remember to make `stream` private again once done testing
+            //eventStream.stream.OnNext("[Zone] ZoneChangeList.ProcessChanges() - id=65 local=False [name=Bluegill Warrior id=12 zone=HAND zonePos=0 cardId=CS2_073 player=1] zone from FRIENDLY DECK -> FRIENDLY HAND");
+            eventStream.stream.OnNext("[Zone] ZoneChangeList.ProcessChanges() - id=84 local=False [name=Uther Lightbringer id=36 zone=GRAVEYARD zonePos=0 cardId=HERO_04 player=2] zone from OPPOSING PLAY (Hero) -> OPPOSING GRAVEYARD");
         }
+
+        private void Change_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	    {
+	        // ... Get the ComboBox.
+	        var comboBox = sender as ComboBox;
+
+	        // ... Set SelectedItem as Window Title.
+	        string value = comboBox.SelectedItem as string;
+	        this.Title = "Selected: " + value;
+	    }
     }
 }

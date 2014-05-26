@@ -20,6 +20,8 @@ namespace HSTracker
 //[Zone] ZoneChangeList.ProcessChanges() - id=7 local=False [name=Argent Commander id=16 zone=GRAVEYARD zonePos=3 cardId=EX1_067 player=1] zone from FRIENDLY HAND -> FRIENDLY GRAVEYARD
 //[Zone] ZoneChangeList.ProcessChanges() - id=2 local=False [name=The Coin id=68 zone=HAND zonePos=5 cardId=GAME_005 player=1] zone from  -> FRIENDLY HAND
 //[Zone] ZoneChangeList.ProcessChanges() - id=190 local=False [name=Knife Juggler id=25 zone=GRAVEYARD zonePos=0 cardId=NEW1_019 player=1] zone from FRIENDLY DECK -> FRIENDLY GRAVEYARD
+//[Zone] ZoneChangeList.ProcessChanges() - id=84 local=False [name=Uther Lightbringer id=36 zone=GRAVEYARD zonePos=0 cardId=HERO_04 player=2] zone from OPPOSING PLAY (Hero) -> OPPOSING GRAVEYARD
+//[Zone] ZoneChangeList.ProcessChanges() - id=30 local=False [name=Gul'dan id=4 zone=GRAVEYARD zonePos=0 cardId=HERO_07 player=1] zone from FRIENDLY PLAY (Hero) -> FRIENDLY GRAVEYARD
         string LOG_LINE_PATTERN  = @"^\[Zone";
         string CARD_PLAY_PATTERN = @"\[name=(.*) id=\d+ zone=(PLAY|HAND).* HAND ";
         string CARD_DRAW_PATTERN = @"\[name=(.*) id=\d+ zone=(PLAY|HAND).* FRIENDLY DECK -> FRIENDLY HAND";
@@ -27,12 +29,14 @@ namespace HSTracker
         string MULLIGAN_PATTERN  = @"\[name=(.*) id=\d+ zone=DECK.* FRIENDLY HAND -> FRIENDLY DECK";
         string DISCARD_PATTERN   = @"\[name=(.*) id=\d+ zone=GRAVEYARD.* FRIENDLY HAND -> FRIENDLY GRAVEYARD";
         string MILL_PATTERN      = @"\[name=(.*) id=\d+ zone=GRAVEYARD.* FRIENDLY DECK -> FRIENDLY GRAVEYARD";
+        string GAME_OVER_PATTERN = @"\[name=(.*) id=\d+ zone=GRAVEYARD.* \(Hero\) -> (FRIENDLY|OPPOSING) GRAVEYARD"; // does this catch jaraxxus?
 
         Conf conf = new Conf();
         public Subject<string> stream = new Subject<string>();
         TailThread tail;
 
         private IObservable<string> _logLines, _rawPlays, _rawDraws, _myPlays, _theirPlays, _myDraws, _myCoinDraws, _myMulligans, _myDiscards, _myMills;
+        private IObservable<bool> _gameOver;
 
         public EventStream()
         {
@@ -67,7 +71,11 @@ namespace HSTracker
 
             _myMills = _logLines
                 .Where(x => Regex.IsMatch(x, MILL_PATTERN))
-                .Select(x => Regex.Matches(x, MILL_PATTERN)[0].Groups[1].Value);                
+                .Select(x => Regex.Matches(x, MILL_PATTERN)[0].Groups[1].Value);
+
+            _gameOver = _logLines
+                .Where(x => Regex.IsMatch(x, GAME_OVER_PATTERN))
+                .Select(_ => true);
         }
 
         public IObservable<string> MyPlays()
@@ -93,6 +101,11 @@ namespace HSTracker
         public IObservable<string> MyMulligans()
         {
             return _myMulligans;
+        }
+
+        public IObservable<bool> GameOver()
+        {
+            return _gameOver;
         }
     }
 }

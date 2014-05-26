@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DeckCollection.cs" />
     <Compile Include="ViewModels\Card.cs" />
     <Compile Include="ViewModels\Deck.cs" />
     <Compile Include="DeckCreation.xaml.cs">

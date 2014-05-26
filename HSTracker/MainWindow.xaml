@@ -37,7 +37,10 @@
                 </StackPanel.Resources>
 
                 <Button Content="Reset" Click="Reset_Click" />
-                <Button Content="Change Deck" Click="Change_Click" />
+                <!--
+                <ComboBox SelectionChanged="Change_SelectionChanged">
+                </ComboBox>
+                -->
             </StackPanel>
         </Border>
     </Grid>
