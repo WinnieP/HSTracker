@@ -24,21 +24,17 @@ namespace HSTracker
     public partial class MainWindow : Window
     {
         EventStream eventStream;
-        Deck deck = Deck.Zoo();
+        Deck deck;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeWindow();
+            InitializeDeck();
 
             eventStream = new EventStream();
 
-            this.cardCollection.ItemsSource = deck.Cards;
-            this.deckControl.ItemsSource = new List<Deck> { deck };
-
 			this.Loaded += delegate { this.StartListening(); };
-
-            //Application.Current.Shutdown();
         }
 
         // Start window in upper-right
@@ -50,16 +46,15 @@ namespace HSTracker
             this.Top = 0;
         }
 
+        private void InitializeDeck()
+        {
+            deck = Deck.Mage();
+            this.cardCollection.ItemsSource = deck.Cards;
+            this.deckControl.ItemsSource = new List<Deck> { deck };
+        }
+
         private void StartListening()
         {
-            /*
-            eventStream.MyPlays().Subscribe(x => showMessage("My Play: " + x));
-            eventStream.TheirPlays().Subscribe(x => showMessage("Their Play: " + x));
-            eventStream.MyDraws().Subscribe(x => showMessage("My Draw: " + x));
-            eventStream.MyMulligans().Subscribe(x => showMessage("My Mulligan: " + x));
-            eventStream.MyDiscards().Subscribe(x => showMessage("My Discard: " + x));
-             */
-
             eventStream.MyDraws().Subscribe(card =>
             {
                 Console.WriteLine("Draw: " + card);
@@ -79,6 +74,16 @@ namespace HSTracker
             MessageBoxImage icon = MessageBoxImage.Warning;
 
             MessageBox.Show(text, caption, button, icon);
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeDeck();
+        }
+
+        private void Change_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
