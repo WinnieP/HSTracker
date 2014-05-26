@@ -33,6 +33,8 @@ namespace HSTracker
             InitializeWindow();
             InitializeDeck();
 
+            library.FindByFragment("fire").ForEach(x => Console.WriteLine(x.Item1 + "," + x.Item2));
+
             eventStream = new EventStream();
 
 			this.Loaded += delegate { this.StartListening(); };

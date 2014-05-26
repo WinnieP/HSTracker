@@ -174,7 +174,7 @@ namespace Utility.TailThread
             // attach a StreamReader to the file stream
             fileStreamReader = new StreamReader(fileStream);
 
-            InitializeReloadTimer();
+            SetInterval(new ElapsedEventHandler(ReloadLogFile), 2000);
         }
 
         public string ReadAsynchronous()
@@ -188,19 +188,15 @@ namespace Utility.TailThread
             fileStream.Close();
         }
 
-        protected void InitializeReloadTimer()
+        protected void SetInterval(ElapsedEventHandler callback, double interval)
         {
-            reloadTimer = new System.Timers.Timer(10000);
-
-            // Hook up the Elapsed event for the timer.
-            reloadTimer.Elapsed += new System.Timers.ElapsedEventHandler(ReloadLogFile);
-
-            // Set the Interval to 2 seconds (2000 milliseconds).
-            reloadTimer.Interval = 2000;
+            reloadTimer = new System.Timers.Timer();
+            reloadTimer.Elapsed += callback;
+            reloadTimer.Interval = interval;
             reloadTimer.Enabled = true;
         }
 
-        // For whatever reason, it seems like the log file isn't written to unless you try opening it
+        // For whatever reason, new data isn't flushed into the Hearthstone log file until you try opening it
         protected void ReloadLogFile(object source, System.Timers.ElapsedEventArgs e)
         {
             var file = File.Open(this.filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);

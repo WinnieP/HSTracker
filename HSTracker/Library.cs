@@ -26,7 +26,7 @@ namespace HSTracker
 
         public List<CardInfo> FindByFragment(string fragment)
         {
-            return cards.Where(x => x.Item1.ToLower().StartsWith(fragment.ToLower())).ToList();
+            return cards.Where(x => x.Item1.ToLower().Contains(fragment.ToLower())).ToList();
         }
 
         private class _CARD
