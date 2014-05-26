@@ -27,14 +27,24 @@ namespace HSTracker
             InitializeComponent();
         }
 
-        private void searchAutoComplete_Populating(object sender, System.Windows.Controls.PopulatingEventArgs e)
+        private void searchAutoComplete_Loaded(object sender, RoutedEventArgs e)
+        {
+            AutoCompleteBox searchBox = sender as AutoCompleteBox;
+            searchBox.ItemsSource = _cards;
+        }
+
+        private void searchAutoComplete_KeyDown(object sender, KeyEventArgs e)
         {
             AutoCompleteBox searchBox = sender as AutoCompleteBox;
 
-            string text = searchBox.Text;
-
-            searchBox.ItemsSource = _cards;
-            searchBox.PopulateComplete();
+            Console.WriteLine("keydown");
+            if (e.Key == Key.Enter)
+            {
+                string val = searchBox.Text;
+                Console.WriteLine("!!!!!");
+                Console.WriteLine(val);
+                Console.WriteLine("!!!!!");
+            }
         }
     }
 

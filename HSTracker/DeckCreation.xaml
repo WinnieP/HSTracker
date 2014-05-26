@@ -15,8 +15,9 @@
         <StackPanel Grid.Row="0">
             <toolkit:AutoCompleteBox
                ToolTip="Enter the path of an assembly."
-               x:Name="searchAutoComplete" Height="30"
-               Populating="searchAutoComplete_Populating" />
+               Loaded="searchAutoComplete_Loaded"
+               KeyDown="searchAutoComplete_KeyDown"
+               />
         </StackPanel>
         
         <StackPanel Grid.Row="1">
