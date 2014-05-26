@@ -1,9 +1,25 @@
 ﻿<Window x:Class="HSTracker.DeckCreation"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         Title="DeckCreation" Height="500" Width="600"
         WindowStartupLocation="CenterScreen">
+
+
     <Grid>
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">This does't do anything yet</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <toolkit:AutoCompleteBox
+               ToolTip="Enter the path of an assembly."
+               x:Name="searchAutoComplete" Height="30"
+               Populating="searchAutoComplete_Populating" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1">
+        </StackPanel>
     </Grid>
 </Window>

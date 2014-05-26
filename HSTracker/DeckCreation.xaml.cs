@@ -19,9 +19,23 @@ namespace HSTracker
     /// </summary>
     public partial class DeckCreation : Window
     {
-        public DeckCreation()
+        private List<string> _cards;
+
+        public DeckCreation(List<string> cards)
         {
+            _cards = cards;
             InitializeComponent();
         }
+
+        private void searchAutoComplete_Populating(object sender, System.Windows.Controls.PopulatingEventArgs e)
+        {
+            AutoCompleteBox searchBox = sender as AutoCompleteBox;
+
+            string text = searchBox.Text;
+
+            searchBox.ItemsSource = _cards;
+            searchBox.PopulateComplete();
+        }
     }
+
 }

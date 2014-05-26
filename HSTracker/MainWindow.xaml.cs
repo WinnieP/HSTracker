@@ -33,8 +33,6 @@ namespace HSTracker
             InitializeComponent();
             InitializeWindow();
 
-            library.FindByFragment("fire").ForEach(x => Console.WriteLine(x.Item1 + "," + x.Item2));
-
             eventStream = new EventStream();
 
 			this.Loaded += delegate { this.StartListening(); };
@@ -126,7 +124,7 @@ namespace HSTracker
 
             if (deckName == "--- New ---")
             {
-                var deckCreationWindow = new DeckCreation();
+                var deckCreationWindow = new DeckCreation(library.CardNames());
                 deckCreationWindow.Show();
                 deckCreationWindow.Closed += new EventHandler((window, args) =>
                 {

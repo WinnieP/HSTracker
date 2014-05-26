@@ -24,6 +24,11 @@ namespace HSTracker
                 }).ToList();
         }
 
+        public List<string> CardNames()
+        {
+            return cards.Select(x => x.Item1).OrderBy(x => x).ToList();
+        }
+
         public List<CardInfo> FindByFragment(string fragment)
         {
             return cards.Where(x => x.Item1.ToLower().Contains(fragment.ToLower())).ToList();
