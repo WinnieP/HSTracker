@@ -22,7 +22,11 @@ namespace HSTracker
         public string LogPath()
         {
             return uninstallRegistry.Read("InstallLocation") + @"\Hearthstone_Data\output_log.txt";
-            //return @"c:\Users\winston\test.log";
+        }
+
+        public string Cards()
+        {
+            return Properties.Resources.Cards;
         }
     }
 }

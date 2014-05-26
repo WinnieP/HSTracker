@@ -25,13 +25,14 @@ namespace HSTracker
     {
         EventStream eventStream;
         Deck deck;
+        Library library = new Library();
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeWindow();
             InitializeDeck();
-
+            library.FindByFragment("fire").ForEach(x => Console.WriteLine(String.Format("{0}, {1}", x.Item1, x.Item2)));
             eventStream = new EventStream();
 
 			this.Loaded += delegate { this.StartListening(); };
