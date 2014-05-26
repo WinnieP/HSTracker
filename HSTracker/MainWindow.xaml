@@ -28,19 +28,20 @@
         <Border Grid.Row="1" Background="LightBlue">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel.Resources>
-                    <Style TargetType="{x:Type Button}">
+                    <Style TargetType="{x:Type FrameworkElement}">
                         <Setter Property="Margin" Value="3,10" />
                         <Setter Property="Width" Value="90" />
                         <Setter Property="Height" Value="30" />
-                        <Setter Property="FontWeight" Value="Bold" />
                     </Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type FrameworkElement}}" />
+                    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type FrameworkElement}}" />
                 </StackPanel.Resources>
 
                 <Button Content="Reset" Click="Reset_Click" />
-                <!--
-                <ComboBox SelectionChanged="Change_SelectionChanged">
+                <ComboBox SelectionChanged="ChangeComboBox_SelectionChanged"
+                          Loaded="ChangeComboBox_Loaded"
+                          VerticalContentAlignment="Center">
                 </ComboBox>
-                -->
             </StackPanel>
         </Border>
     </Grid>

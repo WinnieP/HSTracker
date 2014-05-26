@@ -32,7 +32,6 @@ namespace HSTracker
         {
             InitializeComponent();
             InitializeWindow();
-            ResetDeck();
 
             library.FindByFragment("fire").ForEach(x => Console.WriteLine(x.Item1 + "," + x.Item2));
 
@@ -50,12 +49,12 @@ namespace HSTracker
             this.Top = 0;
         }
 
-        private void ResetDeck()
+        private void InitializeDeck(string deckName)
         {
             // Clone instead so we don't have to reset state?
             if (currentDeck != null) currentDeck.Reset();
 
-            currentDeck = deckCollection.GetDeck("Zoo");
+            currentDeck = deckCollection.GetDeck(deckName);
             this.Dispatcher.Invoke((Action)(() =>
             {
                 this.cardCollection.ItemsSource = currentDeck.Cards;
@@ -80,7 +79,7 @@ namespace HSTracker
             eventStream.GameOver().Subscribe(_ =>
             {
                 Console.WriteLine("Game Over");
-                ResetDeck();
+                InitializeDeck(currentDeck.Name);
             });
         }
 
@@ -94,7 +93,7 @@ namespace HSTracker
 
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
-            ResetDeck();
+            InitializeDeck(currentDeck.Name);
         }
 
         private void Change_Click(object sender, RoutedEventArgs e)
@@ -104,14 +103,22 @@ namespace HSTracker
             eventStream.stream.OnNext("[Zone] ZoneChangeList.ProcessChanges() - id=84 local=False [name=Uther Lightbringer id=36 zone=GRAVEYARD zonePos=0 cardId=HERO_04 player=2] zone from OPPOSING PLAY (Hero) -> OPPOSING GRAVEYARD");
         }
 
-        private void Change_SelectionChanged(object sender, SelectionChangedEventArgs e)
-	    {
-	        // ... Get the ComboBox.
-	        var comboBox = sender as ComboBox;
+        private void ChangeComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<string> deckNames = deckCollection.DeckNames();
+            var comboBox = sender as ComboBox;
+            comboBox.ItemsSource = deckNames;
+            comboBox.SelectedIndex = 0;
 
-	        // ... Set SelectedItem as Window Title.
-	        string value = comboBox.SelectedItem as string;
-	        this.Title = "Selected: " + value;
+            InitializeDeck(deckNames[0]);
+        }
+
+        private void ChangeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	    {
+	        var comboBox = sender as ComboBox;
+	        string deckName = comboBox.SelectedItem as string;
+
+            InitializeDeck(deckName);
 	    }
     }
 }
