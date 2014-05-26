@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 
+using System.Windows;
+
 namespace HSTracker
 {
     class Card : INotifyPropertyChanged
@@ -20,6 +22,8 @@ namespace HSTracker
             _mana = mana;
             _count = _maxCount = count;
         }
+
+        #region Properties
 
         public string Name
         {
@@ -41,16 +45,32 @@ namespace HSTracker
             get { return _maxCount; }
         }
 
+        public bool NoneDrawn
+        {
+            get { return _count == _maxCount && _count > 0; }
+        }
+
+        public bool SomeDrawn
+        {
+            get { return _count < _maxCount && _count > 0; }
+        }
+
+        #endregion
+
         public void Draw()
         {
             _count--;
             this.RaisePropertyChanged("Count");
+            this.RaisePropertyChanged("NoneDrawn");
+            this.RaisePropertyChanged("SomeDrawn");
         }
 
         public void Restore()
         {
             _count++;
             this.RaisePropertyChanged("Count");
+            this.RaisePropertyChanged("NoneDrawn");
+            this.RaisePropertyChanged("SomeDrawn");
         }
 
         #region INotifyPropertyChanged Members
