@@ -29,7 +29,7 @@ namespace HSTracker
         string MILL_PATTERN      = @"\[name=(.*) id=\d+ zone=GRAVEYARD.* FRIENDLY DECK -> FRIENDLY GRAVEYARD";
 
         Conf conf = new Conf();
-        Subject<string> stream = new Subject<string>();
+        public Subject<string> stream = new Subject<string>();
         TailThread tail;
 
         private IObservable<string> _logLines, _rawPlays, _rawDraws, _myPlays, _theirPlays, _myDraws, _myCoinDraws, _myMulligans, _myDiscards, _myMills;

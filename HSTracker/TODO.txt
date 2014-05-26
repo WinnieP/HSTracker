@@ -1,4 +1,5 @@
 ﻿blink when drawn
+auto reset on game completion
 make own decks and select
 opponent cards
 

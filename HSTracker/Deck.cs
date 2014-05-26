@@ -66,6 +66,31 @@ namespace HSTracker
             );
         }
 
+        public static Deck Paladin()
+        {
+            return new Deck(
+                new List<Card> {
+                    new Card("Blessing of Might", 1, 2),
+                    new Card("Noble Sacrifice", 1, 2),
+                    new Card("Abusive Sergeant", 1, 2),
+                    new Card("Argent Squire", 1, 2),
+                    new Card("Leper Gnome", 1, 2),
+                    new Card("Argent Protector", 2, 2),
+                    new Card("Bluegill Warrior", 2, 2),
+                    new Card("Ironbeak Owl", 2, 2),
+                    new Card("Knife Juggler", 2, 2),
+                    new Card("Sword of Justice", 3, 1),
+                    new Card("Divine Favor", 3, 2),
+                    new Card("Arcane Golem", 3, 1),
+                    new Card("Harvest Golem", 3, 1),
+                    new Card("Wolfrider", 3, 2),
+                    new Card("Truesilver Champion", 4, 2),
+                    new Card("Blessing of Kings", 4, 2),
+                    new Card("Leeroy Jenkins",6, 1),
+                }
+            );
+        }
+
         public List<Card> Cards
         {
             get

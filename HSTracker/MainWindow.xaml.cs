@@ -32,7 +32,7 @@ namespace HSTracker
             InitializeComponent();
             InitializeWindow();
             InitializeDeck();
-            library.FindByFragment("fire").ForEach(x => Console.WriteLine(String.Format("{0}, {1}", x.Item1, x.Item2)));
+
             eventStream = new EventStream();
 
 			this.Loaded += delegate { this.StartListening(); };
@@ -49,7 +49,7 @@ namespace HSTracker
 
         private void InitializeDeck()
         {
-            deck = Deck.Mage();
+            deck = Deck.Paladin();
             this.cardCollection.ItemsSource = deck.Cards;
             this.deckControl.ItemsSource = new List<Deck> { deck };
         }
@@ -84,7 +84,7 @@ namespace HSTracker
 
         private void Change_Click(object sender, RoutedEventArgs e)
         {
-
+            eventStream.stream.OnNext("[Zone] ZoneChangeList.ProcessChanges() - id=65 local=False [name=Bluegill Warrior id=12 zone=HAND zonePos=0 cardId=CS2_073 player=1] zone from FRIENDLY DECK -> FRIENDLY HAND");
         }
     }
 }

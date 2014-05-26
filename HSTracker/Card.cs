@@ -52,7 +52,7 @@ namespace HSTracker
 
         public bool SomeDrawn
         {
-            get { return _count < _maxCount && _count > 0; }
+            get { return _count == 1 && _maxCount == 2; }
         }
 
         #endregion
