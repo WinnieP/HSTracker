@@ -15,7 +15,7 @@ namespace HSTracker
 
         public Library()
         {
-            string cardsData = conf.Cards();
+            string cardsData = conf.CardsData();
             List<string> lines = cardsData.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).ToList();
             cards = lines.Select(x =>
                 {
@@ -27,21 +27,6 @@ namespace HSTracker
         public List<CardInfo> FindByFragment(string fragment)
         {
             return cards.Where(x => x.Item1.ToLower().Contains(fragment.ToLower())).ToList();
-        }
-
-        private class _CARD
-        {
-            private readonly string _name;
-            private readonly uint _mana;
-
-            public _CARD(string name, uint mana)
-            {
-                _name = name;
-                _mana = mana;
-            }
-
-            public string Name { get { return _name; } }
-            public uint Mana { get { return _mana; } }
         }
     }
 }

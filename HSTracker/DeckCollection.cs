@@ -112,9 +112,9 @@ namespace HSTracker
             return _collection[name];
         }
 
-        public void AddDeck(string name, Deck deck)
+        public void AddDeck(Deck deck)
         {
-            _collection[name] = deck;
+            _collection[deck.Name] = deck;
         }
 
         public void RemoveDeck(string name)
@@ -124,7 +124,10 @@ namespace HSTracker
 
         public List<string> DeckNames()
         {
-            return _collection.Select(pair => { return pair.Key; }).ToList();
+            return _collection
+                .Select(pair => { return pair.Key; })
+                .OrderBy(x => x)
+                .ToList();
         }
     }
 }

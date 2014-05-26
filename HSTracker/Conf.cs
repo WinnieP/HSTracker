@@ -24,7 +24,7 @@ namespace HSTracker
             return uninstallRegistry.Read("InstallLocation") + @"\Hearthstone_Data\output_log.txt";
         }
 
-        public string Cards()
+        public string CardsData()
         {
             return Properties.Resources.Cards;
         }

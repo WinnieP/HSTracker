@@ -103,14 +103,20 @@ namespace HSTracker
             eventStream.stream.OnNext("[Zone] ZoneChangeList.ProcessChanges() - id=84 local=False [name=Uther Lightbringer id=36 zone=GRAVEYARD zonePos=0 cardId=HERO_04 player=2] zone from OPPOSING PLAY (Hero) -> OPPOSING GRAVEYARD");
         }
 
+        #region Change deck ComboBox
+
+        // Can these be done through data bindings instead?
+        // http://www.codeproject.com/Articles/301678/Step-by-Step-WPF-Data-Binding-with-Comboboxes
+
         private void ChangeComboBox_Loaded(object sender, RoutedEventArgs e)
         {
-            List<string> deckNames = deckCollection.DeckNames();
             var comboBox = sender as ComboBox;
-            comboBox.ItemsSource = deckNames;
+
+            PopulateChangeComboBox(comboBox);
             comboBox.SelectedIndex = 0;
 
-            InitializeDeck(deckNames[0]);
+            string firstDeck = (string) comboBox.SelectedItem;
+            InitializeDeck(firstDeck);
         }
 
         private void ChangeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -118,7 +124,30 @@ namespace HSTracker
 	        var comboBox = sender as ComboBox;
 	        string deckName = comboBox.SelectedItem as string;
 
-            InitializeDeck(deckName);
-	    }
+            if (deckName == "--- New ---")
+            {
+                var deckCreationWindow = new DeckCreation();
+                deckCreationWindow.Show();
+                deckCreationWindow.Closed += new EventHandler((window, args) =>
+                {
+                    PopulateChangeComboBox(comboBox);
+                });
+            }
+            else
+            {
+                InitializeDeck(deckName);
+            }
+        }
+
+        private void PopulateChangeComboBox(ComboBox comboBox)
+        {
+            List<string> deckNames = deckCollection.DeckNames();
+
+            // add fake item to trigger deck builder
+            var names = deckNames.Concat(new List<string> { "--- New ---"});
+            comboBox.ItemsSource = names;
+        }
+
+        #endregion
     }
 }

@@ -38,7 +38,8 @@
                 </StackPanel.Resources>
 
                 <Button Content="Reset" Click="Reset_Click" />
-                <ComboBox SelectionChanged="ChangeComboBox_SelectionChanged"
+                <ComboBox x:Name="changeComboBox"
+                          SelectionChanged="ChangeComboBox_SelectionChanged"
                           Loaded="ChangeComboBox_Loaded"
                           VerticalContentAlignment="Center">
                 </ComboBox>

@@ -3,4 +3,6 @@ auto reset on game completion
 make own decks and select
 opponent cards
 
+rewrite everything to mvvm - and figure out what that means
+
 cards that give you an option after placing (e.g. target for abusive sergeant) count as card play even when cancelled
