@@ -4,6 +4,10 @@
 
     <DataTemplate DataType="{x:Type local:Card}">
         <Border x:Name="cardPit" Padding="6,3,0,3" BorderBrush="Black" BorderThickness="0,0,0,1">
+            <Border.Background>
+                <SolidColorBrush x:Name="backgroundBrush" Color="White" />
+            </Border.Background>
+
             <Grid Width="{Binding ElementName=cardPit, Path=ActualWidth}">
                 <Grid.Resources>
                     <Style TargetType="{x:Type TextBlock}">
@@ -17,7 +21,7 @@
                 </StackPanel>
 
                 <StackPanel x:Name="cardCount" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,8,0">
-                    <TextBlock x:Name="blah" Text="{Binding Count}" Margin="3,0" />
+                    <TextBlock Text="{Binding Count}" Margin="3,0" />
                     <TextBlock>/</TextBlock>
                     <TextBlock Text="{Binding MaxCount}" Margin="3,0" />
                 </StackPanel>
@@ -26,15 +30,43 @@
 
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Count}" Value="0">
-                <Setter TargetName="cardPit" Property="Background" Value="Red" />
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation To="Red" Storyboard.TargetName="backgroundBrush" Storyboard.TargetProperty="(SolidColorBrush.Color)"  Duration="0:0:1" />
+                            <DoubleAnimation To=".6" Storyboard.TargetName="backgroundBrush" Storyboard.TargetProperty="(SolidColorBrush.Opacity)"  Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation To="1" Storyboard.TargetName="backgroundBrush" Storyboard.TargetProperty="(SolidColorBrush.Opacity)"  Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding SomeDrawn}" Value="true">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation To="LightYellow" Storyboard.TargetName="backgroundBrush" Storyboard.TargetProperty="(SolidColorBrush.Color)"  Duration="0:0:1" />
+                            <DoubleAnimation To=".6" Storyboard.TargetName="backgroundBrush" Storyboard.TargetProperty="(SolidColorBrush.Opacity)"  Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation To="1" Storyboard.TargetName="backgroundBrush" Storyboard.TargetProperty="(SolidColorBrush.Opacity)"  Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
             </DataTrigger>
 
             <DataTrigger Binding="{Binding NoneDrawn}" Value="true">
                 <Setter TargetName="cardPit" Property="Background" Value="LightGreen" />
-            </DataTrigger>
-
-            <DataTrigger Binding="{Binding SomeDrawn}" Value="true">
-                <Setter TargetName="cardPit" Property="Background" Value="LightYellow" />
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
