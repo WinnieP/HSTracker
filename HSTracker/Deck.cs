@@ -91,6 +91,32 @@ namespace HSTracker
             );
         }
 
+        public static Deck Rogue()
+        {
+            return new Deck(
+                new List<Card> {
+                    new Card("Backstab", 0, 2),
+                    new Card("Preparation", 0, 2),
+                    new Card("Shadowstep", 0, 2),
+                    new Card("Cold Blood", 1, 2),
+                    new Card("Conceal", 1, 1),
+                    new Card("Deadly Poison", 1, 2),
+                    new Card("Blade Flurry", 2, 1),
+                    new Card("Eviscerate", 2, 2),
+                    new Card("Sap", 2, 2),
+                    new Card("Shiv", 2, 2),
+                    new Card("Bloodmage Thalnos", 2, 1),
+                    new Card("Fan of Knives", 3, 2),
+                    new Card("Earthen Ring Farseer", 3, 2),
+                    new Card("Edwin VanCleef", 3, 1),
+                    new Card("SI:7 Agent", 3, 2),
+                    new Card("Leeroy Jenkins", 4, 1),
+                    new Card("Azure Drake", 5, 1),
+                    new Card("Gadgetzan Auctioneer", 5, 2),
+                }
+            );
+        }
+
         public List<Card> Cards
         {
             get

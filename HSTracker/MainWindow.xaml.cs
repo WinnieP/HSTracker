@@ -49,7 +49,7 @@ namespace HSTracker
 
         private void InitializeDeck()
         {
-            deck = Deck.Paladin();
+            deck = Deck.Rogue();
             this.cardCollection.ItemsSource = deck.Cards;
             this.deckControl.ItemsSource = new List<Deck> { deck };
         }
