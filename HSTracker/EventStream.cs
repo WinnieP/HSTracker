@@ -19,18 +19,20 @@ namespace HSTracker
 //[Zone] ZoneChangeList.ProcessChanges() - id=4 local=False [name=Northshire Cleric id=21 zone=DECK zonePos=2 cardId=CS2_235 player=1] zone from FRIENDLY HAND -> FRIENDLY DECK
 //[Zone] ZoneChangeList.ProcessChanges() - id=7 local=False [name=Argent Commander id=16 zone=GRAVEYARD zonePos=3 cardId=EX1_067 player=1] zone from FRIENDLY HAND -> FRIENDLY GRAVEYARD
 //[Zone] ZoneChangeList.ProcessChanges() - id=2 local=False [name=The Coin id=68 zone=HAND zonePos=5 cardId=GAME_005 player=1] zone from  -> FRIENDLY HAND
+//[Zone] ZoneChangeList.ProcessChanges() - id=190 local=False [name=Knife Juggler id=25 zone=GRAVEYARD zonePos=0 cardId=NEW1_019 player=1] zone from FRIENDLY DECK -> FRIENDLY GRAVEYARD
         string LOG_LINE_PATTERN  = @"^\[Zone";
         string CARD_PLAY_PATTERN = @"\[name=(.*) id=\d+ zone=(PLAY|HAND).* HAND ";
         string CARD_DRAW_PATTERN = @"\[name=(.*) id=\d+ zone=(PLAY|HAND).* FRIENDLY DECK -> FRIENDLY HAND";
         string COIN_DRAW_PATTERN = @"\[name=The Coin.*  -> FRIENDLY HAND";
         string MULLIGAN_PATTERN  = @"\[name=(.*) id=\d+ zone=DECK.* FRIENDLY HAND -> FRIENDLY DECK";
         string DISCARD_PATTERN   = @"\[name=(.*) id=\d+ zone=GRAVEYARD.* FRIENDLY HAND -> FRIENDLY GRAVEYARD";
+        string MILL_PATTERN      = @"\[name=(.*) id=\d+ zone=GRAVEYARD.* FRIENDLY DECK -> FRIENDLY GRAVEYARD";
 
         Conf conf = new Conf();
         Subject<string> stream = new Subject<string>();
         TailThread tail;
 
-        private IObservable<string> _logLines, _rawPlays, _rawDraws, _myPlays, _theirPlays, _myDraws, _myCoinDraws, _myMulligans, _myDiscards;
+        private IObservable<string> _logLines, _rawPlays, _rawDraws, _myPlays, _theirPlays, _myDraws, _myCoinDraws, _myMulligans, _myDiscards, _myMills;
 
         public EventStream()
         {
@@ -62,7 +64,10 @@ namespace HSTracker
             _myDiscards = _logLines
                 .Where(x => Regex.IsMatch(x, DISCARD_PATTERN))
                 .Select(x => Regex.Matches(x, DISCARD_PATTERN)[0].Groups[1].Value);
-                
+
+            _myMills = _logLines
+                .Where(x => Regex.IsMatch(x, MILL_PATTERN))
+                .Select(x => Regex.Matches(x, MILL_PATTERN)[0].Groups[1].Value);                
         }
 
         public IObservable<string> MyPlays()
@@ -75,21 +80,19 @@ namespace HSTracker
             return _theirPlays;
         }
 
+        public IObservable<string> MyDiscards()
+        {
+            return _myDiscards;
+        }
+
         public IObservable<string> MyDraws()
         {
-            return _myDraws;
+            return Observable.Merge(_myDraws, _myMills);
         }
 
         public IObservable<string> MyMulligans()
         {
             return _myMulligans;
         }
-
-        public IObservable<string> MyDiscards()
-        {
-            return _myDiscards;
-        }
-        
-        
     }
 }
