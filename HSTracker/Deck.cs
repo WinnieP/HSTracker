@@ -41,6 +41,31 @@ namespace HSTracker
             );
         }
 
+        public static Deck Mage()
+        {
+            return new Deck(
+                new List<Card> {
+                    new Card("Arcane Missiles", 1, 2),
+                    new Card("Ice Lance", 1, 2),
+                    new Card("Mirror Image", 1, 2),
+                    new Card("Leper Gnome", 1, 2),
+                    new Card("Mana Wyrm", 1, 2),
+                    new Card("Frostbolt", 2, 2),
+                    new Card("Bloodmage Thalnos", 2, 1),
+                    new Card("Knife Juggler", 2, 2),
+                    new Card("Sorcerer's Apprentice", 2, 2),
+                    new Card("Arcane Intellect", 3, 2),
+                    new Card("Acolyte of Pain", 3, 1),
+                    new Card("Fireball", 4, 2),
+                    new Card("Violet Teacher", 4, 2),
+                    new Card("Water Elemental", 4, 2),
+                    new Card("Azure Drake", 5, 2),
+                    new Card("Flamestrike", 7, 1),
+                    new Card("Archmage Antonidas", 7, 1),
+                }
+            );
+        }
+
         public List<Card> Cards
         {
             get
