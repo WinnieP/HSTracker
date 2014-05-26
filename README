@@ -9,5 +9,10 @@ FilePrinting=false
 ConsolePrinting=true
 ScreenPrinting=false
 
+Developing
+==========
+RX extensions (via Nuget)
+WPF Toolkit (http://wpf.codeplex.com/)
+
 
 ... figure out markdown later
