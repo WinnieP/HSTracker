@@ -60,9 +60,17 @@ namespace HSTracker
             eventStream.MyDiscards().Subscribe(x => showMessage("My Discard: " + x));
              */
 
-            eventStream.MyDraws().Subscribe(deck.Draw);
-            eventStream.MyMulligans().Subscribe(deck.Restore);
-            eventStream.MyDiscards().Subscribe(deck.Restore);
+            eventStream.MyDraws().Subscribe(card =>
+            {
+                Console.WriteLine("Draw: " + card);
+                deck.Draw(card);
+            });
+
+            eventStream.MyMulligans().Subscribe(card =>
+            {
+                Console.WriteLine("Mulligan: " + card);
+                deck.Restore(card);
+            });
         }
 
         private void showMessage(string text, string caption = "ReadMe")
