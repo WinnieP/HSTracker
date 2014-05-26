@@ -3,22 +3,25 @@
                     xmlns:local="clr-namespace:HSTracker">
     
     <DataTemplate DataType="{x:Type local:Card}">
-        <DataTemplate.Resources>
-        </DataTemplate.Resources>
-
-        <Border x:Name="cardPit" Margin="6,3">
+        <Border x:Name="cardPit" Padding="6,3,0,3" BorderBrush="Black" BorderThickness="0,0,0,1">
             <Grid Width="{Binding ElementName=cardPit, Path=ActualWidth}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="cardCost" Text="{Binding Mana}" Padding="3,0" VerticalAlignment="Center" Background="Blue" Foreground="White"/>
+                    <TextBlock x:Name="cardCost" Text="{Binding Mana}" Padding="3,0" VerticalAlignment="Center" Background="Blue" Foreground="White" />
                     <TextBlock x:Name="cardName" Text="{Binding Name}" Margin="3,0" VerticalAlignment="Center" />
                 </StackPanel>
                             
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,8,0">
                     <TextBlock x:Name="cardCount" Text="{Binding Count}" Margin="3,0" />
                     <TextBlock>/</TextBlock>
                     <TextBlock x:Name="cardMaxCount" Text="{Binding MaxCount}" Margin="3,0" />
                 </StackPanel>
             </Grid>
         </Border>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Count}" Value="0">
+                <Setter TargetName="cardPit" Property="Background" Value="Red" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 </ResourceDictionary>

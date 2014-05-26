@@ -41,9 +41,15 @@ namespace HSTracker
             get { return _maxCount; }
         }
 
-        public void Play()
+        public void Draw()
         {
             _count--;
+            this.RaisePropertyChanged("Count");
+        }
+
+        public void Restore()
+        {
+            _count++;
             this.RaisePropertyChanged("Count");
         }
 

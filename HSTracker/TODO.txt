@@ -1,0 +1,7 @@
+﻿blink when drawn
+status colors (green when count==max, yellow when 1/2?)
+reset
+make own decks and select
+opponent cards
+
+cards that give you an option after placing (e.g. target for abusive sergeant) count as card play even when cancelled

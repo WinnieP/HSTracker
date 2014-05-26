@@ -77,7 +77,7 @@ namespace HSTracker
 
         public IObservable<string> MyDraws()
         {
-            return Observable.Merge<string>(_myDraws, _myCoinDraws);
+            return _myDraws;
         }
 
         public IObservable<string> MyMulligans()

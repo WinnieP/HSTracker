@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HSTracker">
+
+    <DataTemplate DataType="{x:Type local:Deck}">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,3,0">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="FontSize" Value="15" />
+                </Style>
+            </StackPanel.Resources> 
+            
+            <TextBlock>Cards Left:</TextBlock>
+            <TextBlock Text="{Binding CardsLeft}" Margin="3,0" />
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

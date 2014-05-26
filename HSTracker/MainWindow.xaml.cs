@@ -24,6 +24,7 @@ namespace HSTracker
     public partial class MainWindow : Window
     {
         EventStream eventStream;
+        Deck deck = Deck.Zoo();
 
         public MainWindow()
         {
@@ -32,7 +33,8 @@ namespace HSTracker
 
             eventStream = new EventStream();
 
-            this.cardCollection.ItemsSource = DefaultDeck().Cards;
+            this.cardCollection.ItemsSource = deck.Cards;
+            this.deckControl.ItemsSource = new List<Deck> { deck };
 
 			this.Loaded += delegate { this.StartListening(); };
 
@@ -48,25 +50,19 @@ namespace HSTracker
             this.Top = 0;
         }
 
-        private Deck DefaultDeck()
-        {
-            return new Deck(
-                new List<Card> {
-                    new Card("Ragnaros", 8, 1),
-                    new Card("Loot Hoarder", 2, 2),
-                    new Card("Eviscerate", 2, 2),
-                    new Card("Chillwind Yeti", 4, 1),
-                }
-            );
-        }
-
         private void StartListening()
         {
+            /*
             eventStream.MyPlays().Subscribe(x => showMessage("My Play: " + x));
             eventStream.TheirPlays().Subscribe(x => showMessage("Their Play: " + x));
             eventStream.MyDraws().Subscribe(x => showMessage("My Draw: " + x));
             eventStream.MyMulligans().Subscribe(x => showMessage("My Mulligan: " + x));
             eventStream.MyDiscards().Subscribe(x => showMessage("My Discard: " + x));
+             */
+
+            eventStream.MyDraws().Subscribe(deck.Draw);
+            eventStream.MyMulligans().Subscribe(deck.Restore);
+            eventStream.MyDiscards().Subscribe(deck.Restore);
         }
 
         private void showMessage(string text, string caption = "ReadMe")
