@@ -21,9 +21,18 @@
             </ResourceDictionary>
         </Grid.Resources>
 
-        <toolkit:AutoCompleteBox Grid.Row="0"
-                                 Loaded="searchAutoComplete_Loaded"
-                                 SelectionChanged="searchAutoComplete_SelectionChanged" />
+        <DockPanel Grid.Row="0" LastChildFill="True">
+            <Button DockPanel.Dock="Right"
+                    Width="50"
+                    Content="Add"
+                    Margin="5,0"
+                    Click="Add_Click"  />
+            
+            <toolkit:AutoCompleteBox x:Name="autoCompleteBox"
+                                     Width="Auto"
+                                     Loaded="searchAutoComplete_Loaded"
+                                     PreviewKeyDown="searchAutoComplete_PreviewKeyDown"/>
+        </DockPanel>
 
         <StackPanel Grid.Row="1">
             <ItemsControl x:Name="cardList" />

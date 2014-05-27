@@ -32,20 +32,20 @@ namespace HSTracker
             this.Loaded += delegate { this.cardList.ItemsSource = selectedCards; };
         }
 
+        #region Autocomplete
+
         private void searchAutoComplete_Loaded(object sender, RoutedEventArgs e)
         {
             AutoCompleteBox searchBox = sender as AutoCompleteBox;
             searchBox.ItemsSource = _cards;
         }
 
-        // this is wrong
-        private void searchAutoComplete_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
-            {
-                string cardName = (string)e.AddedItems[0];
-                Console.WriteLine(cardName);
+            string cardName = this.autoCompleteBox.Text;
 
+            if (Library.HasCard(cardName))
+            {
                 DeckCreationCard match = selectedCards.FirstOrDefault(x => x.Name == cardName);
                 if (match != null)
                 {
@@ -55,8 +55,12 @@ namespace HSTracker
                 {
                     selectedCards.Add(new DeckCreationCard(cardName));
                 }
-            } 
+            }
         }
+
+        #endregion
+
+        #region Create deck controls
 
         private void Create_Click(object sender, RoutedEventArgs e)
         {
@@ -64,6 +68,16 @@ namespace HSTracker
            // Deck deck = new Deck(this.deckName.Text, cards);
         }
 
+        private void searchAutoComplete_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Console.WriteLine("ENTER");
+            }
+
+        }
+
+        #endregion
     }
 
 }

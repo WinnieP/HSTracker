@@ -116,7 +116,7 @@ namespace HSTracker
 
             if (deckName == "--- New ---")
             {
-                var deckCreationWindow = new DeckCreation(Library.CardNames());
+                var deckCreationWindow = new DeckCreation(Library.AllCardNames());
                 deckCreationWindow.Show();
                 deckCreationWindow.Closed += new EventHandler((window, args) =>
                 {
