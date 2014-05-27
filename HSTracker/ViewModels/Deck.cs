@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace HSTracker
 {
-    class Deck : INotifyPropertyChanged
+    public class Deck : INotifyPropertyChanged
     {
         private string _name;
         private List<Card> _cards = new List<Card>();

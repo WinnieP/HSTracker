@@ -30,8 +30,7 @@
             
             <toolkit:AutoCompleteBox x:Name="autoCompleteBox"
                                      Width="Auto"
-                                     Loaded="searchAutoComplete_Loaded"
-                                     PreviewKeyDown="searchAutoComplete_PreviewKeyDown"/>
+                                     Loaded="searchAutoComplete_Loaded" />
         </DockPanel>
 
         <StackPanel Grid.Row="1">

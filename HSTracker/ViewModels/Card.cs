@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace HSTracker
 {
-    class Card : INotifyPropertyChanged
+    public class Card : INotifyPropertyChanged
     {
         private string _name;
         private uint _mana;

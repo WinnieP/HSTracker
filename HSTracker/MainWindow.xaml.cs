@@ -18,6 +18,8 @@ using System.Reactive.Linq;
 
 namespace HSTracker
 {
+    public delegate void DeckCreationDelegate(Deck deck);
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -116,7 +118,7 @@ namespace HSTracker
 
             if (deckName == "--- New ---")
             {
-                var deckCreationWindow = new DeckCreation(Library.AllCardNames());
+                var deckCreationWindow = new DeckCreation(Library.AllCardNames(), new DeckCreationDelegate(deckCollection.AddDeck));
                 deckCreationWindow.Show();
                 deckCreationWindow.Closed += new EventHandler((window, args) =>
                 {

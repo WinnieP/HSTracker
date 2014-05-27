@@ -22,17 +22,17 @@ namespace HSTracker
     public partial class DeckCreation : Window
     {
         private List<string> _cards;
-        private ObservableCollection<DeckCreationCard> selectedCards = new ObservableCollection<DeckCreationCard>();
+        private ObservableCollection<DeckCreationCard> _selectedCards = new ObservableCollection<DeckCreationCard>();
+        private DeckCreationDelegate _callback;
 
-        public DeckCreation(List<string> cards)
+        public DeckCreation(List<string> cards, DeckCreationDelegate callback)
         {
             _cards = cards;
+            _callback = callback;
             InitializeComponent();
 
-            this.Loaded += delegate { this.cardList.ItemsSource = selectedCards; };
+            this.Loaded += delegate { this.cardList.ItemsSource = _selectedCards; };
         }
-
-        #region Autocomplete
 
         private void searchAutoComplete_Loaded(object sender, RoutedEventArgs e)
         {
@@ -46,38 +46,31 @@ namespace HSTracker
 
             if (Library.HasCard(cardName))
             {
-                DeckCreationCard match = selectedCards.FirstOrDefault(x => x.Name == cardName);
+                DeckCreationCard match = _selectedCards.FirstOrDefault(x => x.Name == cardName);
                 if (match != null)
                 {
                     match.Add();
                 }
                 else
                 {
-                    selectedCards.Add(new DeckCreationCard(cardName));
+                    _selectedCards.Add(new DeckCreationCard(cardName));
                 }
             }
         }
-
-        #endregion
-
-        #region Create deck controls
-
+        
         private void Create_Click(object sender, RoutedEventArgs e)
         {
-         //   List<Card> cards = selectedCards.Select
-           // Deck deck = new Deck(this.deckName.Text, cards);
-        }
-
-        private void searchAutoComplete_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
+            List<Card> cards = _selectedCards.Select(x =>
             {
-                Console.WriteLine("ENTER");
-            }
+                var cardInfo = Library.GetCardInfo(x.Name);
+                return new Card(cardInfo.Item1, cardInfo.Item2, x.Count);
+            }).ToList();
 
+            Deck deck = new Deck(this.deckName.Text, cards);
+
+            _callback(deck);
+            this.Close();
         }
-
-        #endregion
     }
 
 }
