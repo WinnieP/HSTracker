@@ -46,6 +46,22 @@ namespace HSTracker
                 Console.WriteLine("!!!!!");
             }
         }
+
+        // I've got to be doing this wrong
+        private void searchAutoComplete_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AutoCompleteBox searchBox = sender as AutoCompleteBox;
+
+            if (e.AddedItems.Count > 0)
+            {
+            } 
+        }
+
+        private void Create_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 
 }
