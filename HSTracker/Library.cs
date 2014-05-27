@@ -10,28 +10,37 @@ namespace HSTracker
 
     class Library
     {
-        private Conf conf = new Conf();
-        private List<CardInfo> cards;
+        private static Conf conf = new Conf();
+        private static Dictionary<string, CardInfo> cards = new Dictionary<string, CardInfo>();
 
-        public Library()
+        static Library()
         {
             string cardsData = conf.CardsData();
             List<string> lines = cardsData.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).ToList();
-            cards = lines.Select(x =>
-                {
-                    string[] pieces = x.Split(new[] { ',' });
-                    return Tuple.Create(pieces[0], Convert.ToUInt32(pieces[1]));
-                }).ToList();
+
+            foreach (string l in lines)
+            {
+                string[] pieces = l.Split(new[] { ',' });
+                string name = pieces[0];
+                uint mana = Convert.ToUInt32(pieces[1]);
+                // duplicates names in list so iterating to avoid duplicate keys, otherwise LINQ (or figure out how to use Distinct() simply)
+                cards[name] = Tuple.Create(name, mana);
+            }
         }
 
-        public List<string> CardNames()
+        public static List<string> CardNames()
         {
-            return cards.Select(x => x.Item1).OrderBy(x => x).ToList();
+            return cards.Select(x => x.Key).OrderBy(x => x).ToList();
         }
 
-        public List<CardInfo> FindByFragment(string fragment)
+        public static uint ManaCost(string name)
         {
-            return cards.Where(x => x.Item1.ToLower().Contains(fragment.ToLower())).ToList();
+            return cards[name].Item2;
+        }
+
+        public static CardInfo GetCardInfo(string name)
+        {
+            return cards[name];
         }
     }
 }

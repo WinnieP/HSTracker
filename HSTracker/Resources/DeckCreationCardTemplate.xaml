@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HSTracker">
+    
+    <DataTemplate DataType="{x:Type local:DeckCreationCard}">
+        <Border x:Name="cardPit" Padding="6,3,0,3" BorderBrush="Black" BorderThickness="0,0,0,1">
+            <Grid Width="{Binding ElementName=cardPit, Path=ActualWidth}">
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="FontSize" Value="14" />
+                    </Style>
+                </Grid.Resources>
+
+                <TextBlock x:Name="cardName" Text="{Binding Name}" Margin="3,0" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Count}"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0" />
+            </Grid>
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

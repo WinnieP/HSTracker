@@ -13,22 +13,27 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0">
-            <toolkit:AutoCompleteBox
-               Loaded="searchAutoComplete_Loaded"
-               KeyDown="searchAutoComplete_KeyDown"
-               SelectionChanged="searchAutoComplete_SelectionChanged"
-               />
-        </StackPanel>
-        
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="Resources/DeckCreationCardTemplate.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <toolkit:AutoCompleteBox Grid.Row="0"
+                                 Loaded="searchAutoComplete_Loaded"
+                                 SelectionChanged="searchAutoComplete_SelectionChanged" />
+
         <StackPanel Grid.Row="1">
+            <ItemsControl x:Name="cardList" />
         </StackPanel>
 
         <StackPanel Grid.Row="2"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     Margin="0,5">
-            <TextBox Text="" Width="120" Margin="5,0" />
+            <TextBox x:Name="deckName"  Text="" Width="120" Margin="5,0" />
             <Button Content="Create" Click="Create_Click" />
         </StackPanel>
     </Grid>

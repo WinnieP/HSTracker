@@ -32,7 +32,7 @@ namespace HSTracker
         string GAME_OVER_PATTERN = @"\[name=(.*) id=\d+ zone=GRAVEYARD.* \(Hero\) -> (FRIENDLY|OPPOSING) GRAVEYARD"; // does this catch jaraxxus?
 
         Conf conf = new Conf();
-        public Subject<string> stream = new Subject<string>();
+        Subject<string> stream = new Subject<string>();
         TailThread tail;
 
         private IObservable<string> _logLines, _rawPlays, _rawDraws, _myPlays, _theirPlays, _myDraws, _myCoinDraws, _myMulligans, _myDiscards, _myMills;

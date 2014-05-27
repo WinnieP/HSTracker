@@ -26,7 +26,6 @@ namespace HSTracker
         EventStream eventStream;
         Deck currentDeck;
         DeckCollection deckCollection = new DeckCollection();
-        Library library = new Library();
 
         public MainWindow()
         {
@@ -94,13 +93,6 @@ namespace HSTracker
             InitializeDeck(currentDeck.Name);
         }
 
-        private void Change_Click(object sender, RoutedEventArgs e)
-        {
-            // hackity hack hack - remember to make `stream` private again once done testing
-            //eventStream.stream.OnNext("[Zone] ZoneChangeList.ProcessChanges() - id=65 local=False [name=Bluegill Warrior id=12 zone=HAND zonePos=0 cardId=CS2_073 player=1] zone from FRIENDLY DECK -> FRIENDLY HAND");
-            eventStream.stream.OnNext("[Zone] ZoneChangeList.ProcessChanges() - id=84 local=False [name=Uther Lightbringer id=36 zone=GRAVEYARD zonePos=0 cardId=HERO_04 player=2] zone from OPPOSING PLAY (Hero) -> OPPOSING GRAVEYARD");
-        }
-
         #region Change deck ComboBox
 
         // Can these be done through data bindings instead?
@@ -124,7 +116,7 @@ namespace HSTracker
 
             if (deckName == "--- New ---")
             {
-                var deckCreationWindow = new DeckCreation(library.CardNames());
+                var deckCreationWindow = new DeckCreation(Library.CardNames());
                 deckCreationWindow.Show();
                 deckCreationWindow.Closed += new EventHandler((window, args) =>
                 {

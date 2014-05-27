@@ -91,6 +91,7 @@
     <Compile Include="EventStream.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Utility\TailThread.cs" />
+    <Compile Include="ViewModels\DeckCreationCard.cs" />
     <Page Include="DeckCreation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -109,6 +110,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\CardTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\DeckCreationCardTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

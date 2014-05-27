@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using System.Collections.ObjectModel;
+
 namespace HSTracker
 {
     /// <summary>
@@ -20,11 +22,14 @@ namespace HSTracker
     public partial class DeckCreation : Window
     {
         private List<string> _cards;
+        private ObservableCollection<DeckCreationCard> selectedCards = new ObservableCollection<DeckCreationCard>();
 
         public DeckCreation(List<string> cards)
         {
             _cards = cards;
             InitializeComponent();
+
+            this.Loaded += delegate { this.cardList.ItemsSource = selectedCards; };
         }
 
         private void searchAutoComplete_Loaded(object sender, RoutedEventArgs e)
@@ -33,33 +38,30 @@ namespace HSTracker
             searchBox.ItemsSource = _cards;
         }
 
-        private void searchAutoComplete_KeyDown(object sender, KeyEventArgs e)
-        {
-            AutoCompleteBox searchBox = sender as AutoCompleteBox;
-
-            Console.WriteLine("keydown");
-            if (e.Key == Key.Enter)
-            {
-                string val = searchBox.Text;
-                Console.WriteLine("!!!!!");
-                Console.WriteLine(val);
-                Console.WriteLine("!!!!!");
-            }
-        }
-
-        // I've got to be doing this wrong
+        // this is wrong
         private void searchAutoComplete_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AutoCompleteBox searchBox = sender as AutoCompleteBox;
-
             if (e.AddedItems.Count > 0)
             {
+                string cardName = (string)e.AddedItems[0];
+                Console.WriteLine(cardName);
+
+                DeckCreationCard match = selectedCards.FirstOrDefault(x => x.Name == cardName);
+                if (match != null)
+                {
+                    match.Add();
+                }
+                else
+                {
+                    selectedCards.Add(new DeckCreationCard(cardName));
+                }
             } 
         }
 
         private void Create_Click(object sender, RoutedEventArgs e)
         {
-
+         //   List<Card> cards = selectedCards.Select
+           // Deck deck = new Deck(this.deckName.Text, cards);
         }
 
     }
